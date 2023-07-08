@@ -8,15 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        Text("")
+//        List(people, id: \.self) {
+//            Text($0)
+//        }
     }
+    
+//    func test() {
+//        let word = "swift"
+//        let checker = UITextChecker()
+//
+//        let range = NSRange(location: 0, length: word.utf16.count)
+//        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+//
+//        let allGood = misspelledRange.location == NSNot
+//    }
+//
+//    func text() {
+//        let input = "a b c"
+//        let letters = input.components(separatedBy: " ")
+//        let letter = letters.randomElement()
+//
+//        let trimmed = letter?.trimmingCharacters(in: .whitespacesAndNewlines)
+//    }
+//
+//    func loadFile() {
+//        if let fileURL = Bundle.main.url(forResource: "some-file", withExtension: "text") {
+//            if let fileContents = try? String(contentsOf: fileURL) {
+//                fileContents
+//            }
+//        }
+//
+//    }
 }
 
 struct ContentView_Previews: PreviewProvider {
