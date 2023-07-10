@@ -17,6 +17,8 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var playerScore = 0
+    
     var body: some View {
         NavigationView {
             List {
@@ -36,6 +38,10 @@ struct ContentView: View {
                 }
             }
             .navigationTitle(rootWord)
+            .toolbar {
+                Button("Restart game", action: startGame)
+                Text("Score: \(playerScore)")
+            }
             .onSubmit(addNewWord)
             .onAppear(perform: startGame)
             .alert(errorTitle, isPresented: $showingError) {
@@ -48,7 +54,7 @@ struct ContentView: View {
     
     func addNewWord() {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        guard answer.count > 0 else { return }
+        guard answer.count > 3 else { return }
         
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original!")
@@ -65,10 +71,16 @@ struct ContentView: View {
             return
         }
         
+        guard isSame(word: answer) else {
+            wordError(title: "Same word as starter word", message: "You can't repeat the same word!")
+            return
+        }
+        
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
         newWord = ""
+        playerScore += 1
     }
     
     func startGame() {
@@ -76,6 +88,8 @@ struct ContentView: View {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: "\n")
                 rootWord = allWords.randomElement() ?? "silkworm"
+                usedWords = [String]()
+                playerScore = 0
                 return
             }
         }
@@ -85,6 +99,7 @@ struct ContentView: View {
     func isOriginal(word: String) -> Bool {
         !usedWords.contains(word)
     }
+
     
     func isPossible(word: String) -> Bool {
         var tempWord = rootWord
@@ -107,6 +122,15 @@ struct ContentView: View {
         
         return misspelledRange.location == NSNotFound
     }
+    
+    func isSame(word: String) -> Bool {
+        if word == rootWord {
+            return false
+        } else {
+            return true
+        }
+    }
+
     
     func wordError(title: String, message: String) {
         errorTitle = title
